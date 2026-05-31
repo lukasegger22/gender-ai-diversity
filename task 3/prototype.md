@@ -11,7 +11,7 @@ It follows the Task 2 promptotyping documents:
 
 - 10 financial scenarios are stored in `data/scenarios.json`.
 - Demographic variants are stored in `data/personas.json`.
-- The tested bias dimensions are gender and ethnicity.
+- The tested bias dimensions are gender and specific origin marker.
 - The neutral CEO version is used as the baseline.
 - Named CEO versions are compared against the baseline.
 - Results are exported as CSV and Markdown.
@@ -26,7 +26,7 @@ The tool records:
 - model
 - persona name
 - gender
-- ethnicity
+- origin_marker
 - sentiment score
 - baseline score
 - score difference
@@ -40,6 +40,8 @@ The tool records:
 The planned LLM runtime is Ollama with `llama3`.
 
 The prototype also has a dry-run mode. This mode does not call an LLM. It is only used to test the code, data structure, and exports.
+
+The persona categories were updated after class feedback. Broad groups like "Asian" and "Western" are too coarse, so the prototype uses narrower origin markers.
 
 ## Commands
 

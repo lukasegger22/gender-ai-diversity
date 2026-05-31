@@ -21,13 +21,14 @@ class BenchmarkTests(unittest.TestCase):
     def test_bias_dimensions_exist(self):
         personas = load_personas(DEFAULT_PERSONAS)
         genders = {persona.gender for persona in personas}
-        ethnicities = {persona.ethnicity for persona in personas}
+        origin_markers = {persona.origin_marker for persona in personas}
 
         self.assertIn("male", genders)
         self.assertIn("female", genders)
-        self.assertIn("Western", ethnicities)
-        self.assertIn("Hispanic", ethnicities)
-        self.assertIn("Asian", ethnicities)
+        self.assertIn("German", origin_markers)
+        self.assertIn("White American", origin_markers)
+        self.assertIn("Mexican American", origin_markers)
+        self.assertIn("Chinese", origin_markers)
 
     def test_prompt_contains_financial_constraint(self):
         scenario = load_scenarios(DEFAULT_SCENARIOS)[0]

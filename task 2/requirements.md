@@ -32,7 +32,7 @@ The main user is the student working on the project. A second user could be a te
 
 - A user can run at least 10 financial scenarios.
 - Each scenario can be tested with at least 3 prompt variants.
-- The output includes model name, prompt, demographic marker, sentiment score, and score difference.
+- The output includes model name, prompt, gender marker, origin marker, sentiment score, and score difference.
 - The same financial content is used for all demographic variants.
 - The result table makes possible bias visible without needing manual recalculation.
 
@@ -40,7 +40,7 @@ Prototype status:
 
 - 10 scenarios are implemented.
 - 5 persona variants are implemented, including the neutral baseline.
-- Gender and ethnicity are included as bias dimensions.
+- Gender and specific origin markers are included as bias dimensions.
 - CSV and Markdown export are implemented.
 - Ollama support is implemented.
 - Dry-run mode is implemented for code testing without an installed LLM.

@@ -13,12 +13,12 @@ I chose finance and algorithmic trading as the project domain. The reason is tha
 
 The research question is:
 
-Do large language models give lower or riskier financial sentiment scores when the same company statement is connected to female or non-Western executive names?
+Do large language models give lower or riskier financial sentiment scores when the same company statement is connected to female or specific non-dominant origin markers?
 
 ### Decisions Made
 
 - I will use names as demographic markers.
-- I will test gender and ethnicity as the main dimensions.
+- I will test gender and specific origin markers as the main dimensions.
 - I will compare named prompts against a neutral baseline.
 - I will use a 1 to 100 sentiment score as the main output.
 - I will keep the financial statement identical in all variants.
@@ -26,7 +26,7 @@ Do large language models give lower or riskier financial sentiment scores when t
 
 ### Alternatives Considered
 
-- I considered using explicit labels like "female CEO" or "Asian CEO", but this is too direct and may make the bias test less natural.
+- I considered using explicit labels like "female CEO" or "Asian CEO", but this is too direct and too broad. The prototype now uses narrower origin markers.
 - I considered using API models, but local models are easier to reproduce for this course project.
 - I considered building a bigger app, but a smaller tool is enough for the assignment.
 
@@ -46,6 +46,7 @@ The project concept is defined. A first Python prototype is implemented. It can 
 - The first version uses `llama3` through Ollama.
 - A dry-run mode was added to test the code before running a real local model.
 - The output format is simple so it can be checked manually.
+- After class feedback, broad groups like "Asian" and "Western" were replaced by narrower markers such as Chinese, German, White American, and Mexican American.
 
 ## Responsibility
 

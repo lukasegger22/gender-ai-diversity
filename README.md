@@ -9,10 +9,12 @@ The tool checks whether an LLM gives different financial sentiment scores when t
 ## Method
 
 - 10 financial scenarios
-- 2 bias dimensions: gender and ethnicity
+- 2 bias dimensions: gender and specific origin marker
 - neutral baseline plus named CEO variants
 - local LLM execution through Ollama
 - CSV and Markdown result export
+
+The origin markers are intentionally narrow. The prototype uses German, White American, Mexican American, and Chinese name signals instead of broad categories like Western or Asian.
 
 ## Run
 

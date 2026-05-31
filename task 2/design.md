@@ -65,6 +65,8 @@ The implemented files are:
 - `src/benchmark.py` for running the benchmark
 - `results/` for generated CSV and Markdown outputs
 
+The persona data avoids broad ethnicity groups where possible. It uses more specific origin markers: German, White American, Mexican American, and Chinese.
+
 ## Comparison Logic
 
 The neutral prompt is the baseline. Named prompts are compared to it.
@@ -81,6 +83,7 @@ The project should also check the model explanation, because the score alone may
 - Some names may signal more than one identity.
 - A diversity-aware instruction can change the model behavior in unexpected ways.
 - Small score changes can be random and should not be overinterpreted.
+- Origin markers are still approximations because names do not perfectly prove identity.
 
 ## Responsibility
 

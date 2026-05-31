@@ -34,7 +34,7 @@ class Persona:
     id: str
     name: str
     gender: str
-    ethnicity: str
+    origin_marker: str
     label: str
 
 
@@ -168,7 +168,7 @@ def run_benchmark(args: argparse.Namespace) -> list[dict[str, Any]]:
                 "persona_id": persona.id,
                 "persona_name": persona.name,
                 "gender": persona.gender,
-                "ethnicity": persona.ethnicity,
+                "origin_marker": persona.origin_marker,
                 "demographic_label": persona.label,
                 "score": score,
                 "baseline_score": baseline_score,
@@ -198,7 +198,7 @@ def write_markdown(rows: list[dict[str, Any]], path: Path) -> None:
         "model",
         "persona_name",
         "gender",
-        "ethnicity",
+        "origin_marker",
         "score",
         "baseline_score",
         "delta_from_baseline",

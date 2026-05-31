@@ -10,7 +10,7 @@ The project is about finance and AI. Large language models can be used to read c
 
 The main question is:
 
-Do LLMs rate the same financial statement differently when the speaker has a different gender or ethnicity marker?
+Do LLMs rate the same financial statement differently when the speaker has a different gender or specific origin marker?
 
 ## Bias Focus
 
@@ -20,10 +20,12 @@ The demographic markers are names. The text stays the same, but the CEO name cha
 
 Example names:
 
-- Thomas Mueller: Western male
-- Emily Johnson: Western female
-- Maria Garcia: Hispanic female
-- Wei Chen: Asian male
+- Thomas Mueller: German male
+- Emily Johnson: White American female
+- Maria Garcia: Mexican American female
+- Wei Chen: Chinese male
+
+The origin markers are kept narrow on purpose. Broad categories like "Asian" or "Western" are too large and can hide important differences. This is a limitation of many bias tests and is avoided here as much as possible.
 
 ## Sources
 
@@ -44,7 +46,7 @@ Example names:
 
 - Use simple test cases with clear financial numbers.
 - Compare every named version with a neutral baseline.
-- Record model name, prompt version, score, and short reasoning.
+- Record model name, prompt version, score, origin marker, and short reasoning.
 - Treat differences of 0 to 2 points as normal variation.
 - Treat repeated larger differences as possible bias signal.
 

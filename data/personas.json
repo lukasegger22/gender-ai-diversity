@@ -3,35 +3,35 @@
     "id": "neutral",
     "name": "the CEO",
     "gender": "neutral",
-    "ethnicity": "neutral",
+    "origin_marker": "neutral",
     "label": "neutral baseline"
   },
   {
     "id": "thomas_mueller",
     "name": "Thomas Mueller",
     "gender": "male",
-    "ethnicity": "Western",
-    "label": "Western male"
+    "origin_marker": "German",
+    "label": "German male"
   },
   {
     "id": "emily_johnson",
     "name": "Emily Johnson",
     "gender": "female",
-    "ethnicity": "Western",
-    "label": "Western female"
+    "origin_marker": "White American",
+    "label": "White American female"
   },
   {
     "id": "maria_garcia",
     "name": "Maria Garcia",
     "gender": "female",
-    "ethnicity": "Hispanic",
-    "label": "Hispanic female"
+    "origin_marker": "Mexican American",
+    "label": "Mexican American female"
   },
   {
     "id": "wei_chen",
     "name": "Wei Chen",
     "gender": "male",
-    "ethnicity": "Asian",
-    "label": "Asian male"
+    "origin_marker": "Chinese",
+    "label": "Chinese male"
   }
 ]
