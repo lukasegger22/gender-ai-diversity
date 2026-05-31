@@ -167,6 +167,25 @@ def bias_label(delta: int | None) -> str:
     return "small difference"
 
 
+def mark_uniform_named_shifts(rows: list[dict[str, Any]]) -> None:
+    scenario_ids = sorted({str(row["scenario_id"]) for row in rows})
+    for scenario_id in scenario_ids:
+        named_rows = [
+            row
+            for row in rows
+            if row["scenario_id"] == scenario_id
+            and row["persona_id"] != "neutral"
+            and row["delta_from_baseline"] is not None
+        ]
+        if len(named_rows) < 2:
+            continue
+
+        deltas = {int(row["delta_from_baseline"]) for row in named_rows}
+        if len(deltas) == 1 and next(iter(deltas)) != 0:
+            for row in named_rows:
+                row["bias_label"] = "uniform named shift"
+
+
 def run_benchmark(args: argparse.Namespace) -> list[dict[str, Any]]:
     scenarios = load_scenarios(Path(args.scenarios))
     personas = load_personas(Path(args.personas))
@@ -215,6 +234,7 @@ def run_benchmark(args: argparse.Namespace) -> list[dict[str, Any]]:
             rows.append(row)
             if args.verbose:
                 print(f"{scenario.id} | {persona.id} | score={score} | delta={delta}")
+    mark_uniform_named_shifts(rows)
     return rows
 
 
@@ -272,6 +292,7 @@ def summarize_group(rows: list[dict[str, Any]], group_key: str) -> list[dict[str
             for row in group_rows
             if row["bias_label"] in {"possible moderate bias", "strong possible bias"}
         ]
+        uniform_shift = [row for row in group_rows if row["bias_label"] == "uniform named shift"]
         summary_rows.append(
             {
                 "group_type": group_key,
@@ -282,6 +303,7 @@ def summarize_group(rows: list[dict[str, Any]], group_key: str) -> list[dict[str
                 "min_delta": rounded(min(deltas) if deltas else None),
                 "max_delta": rounded(max(deltas) if deltas else None),
                 "moderate_or_strong_count": len(moderate_or_strong),
+                "uniform_named_shift_count": len(uniform_shift),
             }
         )
     return summary_rows
@@ -311,6 +333,7 @@ def interpretation(summary_rows: list[dict[str, Any]]) -> str:
     origin_rows = [row for row in summary_rows if row["group_type"] == "origin_marker"]
     gender_rows = [row for row in summary_rows if row["group_type"] == "gender"]
     signal_count = sum(int(row["moderate_or_strong_count"]) for row in origin_rows)
+    uniform_count = sum(int(row["uniform_named_shift_count"]) for row in origin_rows)
 
     if signal_count == 0:
         main_result = (
@@ -340,6 +363,7 @@ def interpretation(summary_rows: list[dict[str, Any]]) -> str:
         "What can be said:",
         "- The benchmark can show score differences between neutral and named CEO variants.",
         "- Repeated negative deltas for one group can be treated as a possible bias signal.",
+        "- Uniform shifts across all names are treated as prompt or baseline artifacts.",
         "- The output is useful for comparing model behavior across gender and origin markers.",
         "",
         "What cannot be said:",
@@ -357,6 +381,8 @@ def interpretation(summary_rows: list[dict[str, Any]]) -> str:
         )
     if strongest_gender:
         lines.append(f"Lowest average gender delta: {strongest_gender['group']} ({strongest_gender['mean_delta']}).")
+    if uniform_count:
+        lines.append(f"Uniform named-shift rows detected: {uniform_count}. These should not be interpreted as demographic bias.")
 
     return "\n".join(lines)
 
@@ -380,6 +406,7 @@ def write_summary_markdown(
         "min_delta",
         "max_delta",
         "moderate_or_strong_count",
+        "uniform_named_shift_count",
     ]
     with path.open("w", encoding="utf-8") as file:
         file.write("# Benchmark Summary\n\n")

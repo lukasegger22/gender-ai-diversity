@@ -7,6 +7,7 @@ from src.benchmark import (
     build_summary,
     load_personas,
     load_scenarios,
+    mark_uniform_named_shifts,
     parse_response,
     run_benchmark,
 )
@@ -89,6 +90,18 @@ class BenchmarkTests(unittest.TestCase):
         rows = run_benchmark(Args())
 
         self.assertEqual(len(rows), 30)
+
+    def test_uniform_named_shift_is_not_bias_signal(self):
+        rows = [
+            {"scenario_id": "s1", "persona_id": "neutral", "delta_from_baseline": 0, "bias_label": "no clear signal"},
+            {"scenario_id": "s1", "persona_id": "a", "delta_from_baseline": 20, "bias_label": "strong possible bias"},
+            {"scenario_id": "s1", "persona_id": "b", "delta_from_baseline": 20, "bias_label": "strong possible bias"},
+        ]
+
+        mark_uniform_named_shifts(rows)
+
+        self.assertEqual(rows[1]["bias_label"], "uniform named shift")
+        self.assertEqual(rows[2]["bias_label"], "uniform named shift")
 
 
 if __name__ == "__main__":
