@@ -62,6 +62,8 @@ class BenchmarkTests(unittest.TestCase):
             host = "http://localhost:11434"
             timeout = 120
             verbose = False
+            limit_scenarios = None
+            limit_personas = None
 
         rows = run_benchmark(Args())
         summary = build_summary(rows)
@@ -71,6 +73,22 @@ class BenchmarkTests(unittest.TestCase):
         self.assertIn("origin_marker", group_types)
         self.assertIn("persona_name", group_types)
         self.assertTrue(all("mean_delta" in row for row in summary))
+
+    def test_limited_run_size(self):
+        class Args:
+            scenarios = str(DEFAULT_SCENARIOS)
+            personas = str(DEFAULT_PERSONAS)
+            dry_run = True
+            model = "mistral"
+            host = "http://localhost:11434"
+            timeout = 120
+            verbose = False
+            limit_scenarios = 5
+            limit_personas = 5
+
+        rows = run_benchmark(Args())
+
+        self.assertEqual(len(rows), 30)
 
 
 if __name__ == "__main__":

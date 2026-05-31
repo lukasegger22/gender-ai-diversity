@@ -25,6 +25,12 @@ Dry run without Ollama:
 python3 src/benchmark.py --dry-run
 ```
 
+Quick real test with fewer prompts:
+
+```bash
+python3 src/benchmark.py --model mistral --limit-scenarios 5 --limit-personas 5 --verbose
+```
+
 Run with Ollama:
 
 ```bash
