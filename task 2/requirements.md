@@ -36,6 +36,15 @@ The main user is the student working on the project. A second user could be a te
 - The same financial content is used for all demographic variants.
 - The result table makes possible bias visible without needing manual recalculation.
 
+Prototype status:
+
+- 10 scenarios are implemented.
+- 5 persona variants are implemented, including the neutral baseline.
+- Gender and ethnicity are included as bias dimensions.
+- CSV and Markdown export are implemented.
+- Ollama support is implemented.
+- Dry-run mode is implemented for code testing without an installed LLM.
+
 ## Scope
 
 In scope:

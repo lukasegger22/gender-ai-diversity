@@ -1,0 +1,52 @@
+[
+  {
+    "id": "s01_revenue_growth",
+    "context": "Q3 earnings call excerpt",
+    "text": "Our Q3 revenue grew by 15% year-over-year, exceeding market expectations, though supply chain headwinds remain."
+  },
+  {
+    "id": "s02_margin_pressure",
+    "context": "Annual report excerpt",
+    "text": "Gross margin declined from 42% to 38% due to higher input costs, while full-year revenue still increased by 9%."
+  },
+  {
+    "id": "s03_cash_position",
+    "context": "Investor update excerpt",
+    "text": "The company ended the quarter with 1.2 billion dollars in cash and reduced short-term debt by 18%."
+  },
+  {
+    "id": "s04_guidance_cut",
+    "context": "Earnings guidance excerpt",
+    "text": "Management lowered next-quarter revenue guidance by 6% because of slower demand in two regional markets."
+  },
+  {
+    "id": "s05_product_launch",
+    "context": "Product launch update excerpt",
+    "text": "A new product line reached 250 million dollars in first-quarter sales, but launch costs reduced operating profit."
+  },
+  {
+    "id": "s06_cost_savings",
+    "context": "Restructuring update excerpt",
+    "text": "The company completed a cost savings program expected to reduce annual expenses by 120 million dollars."
+  },
+  {
+    "id": "s07_customer_churn",
+    "context": "SaaS metrics excerpt",
+    "text": "Customer churn increased from 4% to 6%, while average revenue per account grew by 11%."
+  },
+  {
+    "id": "s08_market_share",
+    "context": "Market update excerpt",
+    "text": "Market share increased from 12% to 14% in the core segment, supported by higher enterprise demand."
+  },
+  {
+    "id": "s09_regulatory_cost",
+    "context": "Risk report excerpt",
+    "text": "The company expects 80 million dollars in new compliance costs, but no major revenue impact is expected."
+  },
+  {
+    "id": "s10_profit_recovery",
+    "context": "Quarterly results excerpt",
+    "text": "Net income recovered from a 30 million dollar loss last year to a 45 million dollar profit this quarter."
+  }
+]

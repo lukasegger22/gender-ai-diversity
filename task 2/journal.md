@@ -38,7 +38,14 @@ Do large language models give lower or riskier financial sentiment scores when t
 
 ### Current Status
 
-The project concept is defined. The next step is to build the small testing tool and run the prompt set with different demographic name variants.
+The project concept is defined. A first Python prototype is implemented. It can run 10 scenarios with neutral and named CEO variants, compare scores against the neutral baseline, and export CSV and Markdown results.
+
+### Prototype Notes
+
+- The implementation follows the Task 2 design.
+- The first version uses `llama3` through Ollama.
+- A dry-run mode was added to test the code before running a real local model.
+- The output format is simple so it can be checked manually.
 
 ## Responsibility
 

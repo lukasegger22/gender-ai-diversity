@@ -14,6 +14,8 @@ The preferred setup is:
 - Ollama for local LLM execution
 - CSV or Markdown output for results
 
+The first prototype uses Python and does not require external Python packages.
+
 ## LLMs
 
 The planned models are local Ollama models, for example:
@@ -55,6 +57,13 @@ Each test case should contain:
 - score
 - reasoning
 - difference from neutral baseline
+
+The implemented files are:
+
+- `data/scenarios.json` for the 10 financial scenarios
+- `data/personas.json` for the neutral and named CEO variants
+- `src/benchmark.py` for running the benchmark
+- `results/` for generated CSV and Markdown outputs
 
 ## Comparison Logic
 

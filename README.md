@@ -1,0 +1,42 @@
+# Gender, AI & Diversity Bias Benchmark
+
+This repository contains a small prototype for testing demographic bias in LLM financial sentiment analysis.
+
+## Goal
+
+The tool checks whether an LLM gives different financial sentiment scores when the same financial statement is linked to different CEO names.
+
+## Method
+
+- 10 financial scenarios
+- 2 bias dimensions: gender and ethnicity
+- neutral baseline plus named CEO variants
+- local LLM execution through Ollama
+- CSV and Markdown result export
+
+## Run
+
+Dry run without Ollama:
+
+```bash
+python3 src/benchmark.py --dry-run
+```
+
+Run with Ollama:
+
+```bash
+ollama pull llama3
+python3 src/benchmark.py --model llama3
+```
+
+Results are written to `results/`.
+
+## Test
+
+```bash
+python3 -m unittest discover -s tests
+```
+
+## Responsibility
+
+Lukas Egger is responsible for the concept, promptotyping docs, implementation, testing, and final documentation.

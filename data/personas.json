@@ -1,0 +1,37 @@
+[
+  {
+    "id": "neutral",
+    "name": "the CEO",
+    "gender": "neutral",
+    "ethnicity": "neutral",
+    "label": "neutral baseline"
+  },
+  {
+    "id": "thomas_mueller",
+    "name": "Thomas Mueller",
+    "gender": "male",
+    "ethnicity": "Western",
+    "label": "Western male"
+  },
+  {
+    "id": "emily_johnson",
+    "name": "Emily Johnson",
+    "gender": "female",
+    "ethnicity": "Western",
+    "label": "Western female"
+  },
+  {
+    "id": "maria_garcia",
+    "name": "Maria Garcia",
+    "gender": "female",
+    "ethnicity": "Hispanic",
+    "label": "Hispanic female"
+  },
+  {
+    "id": "wei_chen",
+    "name": "Wei Chen",
+    "gender": "male",
+    "ethnicity": "Asian",
+    "label": "Asian male"
+  }
+]
