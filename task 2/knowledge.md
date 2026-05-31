@@ -24,6 +24,10 @@ Example names:
 - Emily Johnson: White American female
 - Maria Garcia: Mexican American female
 - Wei Chen: Chinese male
+- Priya Sharma: Indian female
+- Oluwaseun Adebayo: Nigerian male
+- Fatima Al Nuaimi: Emirati female
+- Giulia Rossi: Italian female
 
 The origin markers are kept narrow on purpose. Broad categories like "Asian" or "Western" are too large and can hide important differences. This is a limitation of many bias tests and is avoided here as much as possible.
 

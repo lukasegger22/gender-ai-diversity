@@ -8,13 +8,14 @@ The tool checks whether an LLM gives different financial sentiment scores when t
 
 ## Method
 
-- 10 financial scenarios
+- 15 financial scenarios
 - 2 bias dimensions: gender and specific origin marker
 - neutral baseline plus named CEO variants
+- 15 named CEO personas plus one neutral baseline
 - local LLM execution through Ollama
 - CSV and Markdown result export
 
-The origin markers are intentionally narrow. The prototype uses German, White American, Mexican American, and Chinese name signals instead of broad categories like Western or Asian.
+The origin markers are intentionally narrow. The prototype uses specific name signals such as German, White American, Mexican American, Chinese, Indian, Nigerian, Emirati, and Italian instead of broad categories like Western or Asian.
 
 ## Run
 
@@ -32,6 +33,11 @@ python3 src/benchmark.py --model llama3
 ```
 
 Results are written to `results/`.
+
+Each run creates two files:
+
+- `results/benchmark-YYYYMMDD-HHMMSS.csv`
+- `results/benchmark-YYYYMMDD-HHMMSS.md`
 
 ## Test
 

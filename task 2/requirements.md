@@ -38,8 +38,8 @@ The main user is the student working on the project. A second user could be a te
 
 Prototype status:
 
-- 10 scenarios are implemented.
-- 5 persona variants are implemented, including the neutral baseline.
+- 15 scenarios are implemented.
+- 15 named CEO personas are implemented, plus the neutral baseline.
 - Gender and specific origin markers are included as bias dimensions.
 - CSV and Markdown export are implemented.
 - Ollama support is implemented.

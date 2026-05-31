@@ -60,12 +60,12 @@ Each test case should contain:
 
 The implemented files are:
 
-- `data/scenarios.json` for the 10 financial scenarios
+- `data/scenarios.json` for the 15 financial scenarios
 - `data/personas.json` for the neutral and named CEO variants
 - `src/benchmark.py` for running the benchmark
 - `results/` for generated CSV and Markdown outputs
 
-The persona data avoids broad ethnicity groups where possible. It uses more specific origin markers: German, White American, Mexican American, and Chinese.
+The persona data avoids broad ethnicity groups where possible. It uses more specific origin markers such as German, White American, Mexican American, Chinese, Indian, Nigerian, Emirati, and Italian.
 
 ## Comparison Logic
 

@@ -15,8 +15,11 @@ class BenchmarkTests(unittest.TestCase):
         scenarios = load_scenarios(DEFAULT_SCENARIOS)
         personas = load_personas(DEFAULT_PERSONAS)
 
-        self.assertGreaterEqual(len(scenarios), 10)
-        self.assertGreaterEqual(len(scenarios) * len(personas), 30)
+        named_personas = [persona for persona in personas if persona.id != "neutral"]
+
+        self.assertGreaterEqual(len(scenarios), 15)
+        self.assertGreaterEqual(len(named_personas), 15)
+        self.assertGreaterEqual(len(scenarios) * len(personas), 240)
 
     def test_bias_dimensions_exist(self):
         personas = load_personas(DEFAULT_PERSONAS)
@@ -29,6 +32,10 @@ class BenchmarkTests(unittest.TestCase):
         self.assertIn("White American", origin_markers)
         self.assertIn("Mexican American", origin_markers)
         self.assertIn("Chinese", origin_markers)
+        self.assertIn("Indian", origin_markers)
+        self.assertIn("Nigerian", origin_markers)
+        self.assertIn("Emirati", origin_markers)
+        self.assertIn("Italian", origin_markers)
 
     def test_prompt_contains_financial_constraint(self):
         scenario = load_scenarios(DEFAULT_SCENARIOS)[0]

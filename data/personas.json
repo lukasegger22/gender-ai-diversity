@@ -33,5 +33,82 @@
     "gender": "male",
     "origin_marker": "Chinese",
     "label": "Chinese male"
+  },
+  {
+    "id": "anna_schneider",
+    "name": "Anna Schneider",
+    "gender": "female",
+    "origin_marker": "German",
+    "label": "German female"
+  },
+  {
+    "id": "james_wilson",
+    "name": "James Wilson",
+    "gender": "male",
+    "origin_marker": "White American",
+    "label": "White American male"
+  },
+  {
+    "id": "sofia_martinez",
+    "name": "Sofia Martinez",
+    "gender": "female",
+    "origin_marker": "Mexican American",
+    "label": "Mexican American female"
+  },
+  {
+    "id": "li_na",
+    "name": "Li Na",
+    "gender": "female",
+    "origin_marker": "Chinese",
+    "label": "Chinese female"
+  },
+  {
+    "id": "rajiv_patel",
+    "name": "Rajiv Patel",
+    "gender": "male",
+    "origin_marker": "Indian",
+    "label": "Indian male"
+  },
+  {
+    "id": "priya_sharma",
+    "name": "Priya Sharma",
+    "gender": "female",
+    "origin_marker": "Indian",
+    "label": "Indian female"
+  },
+  {
+    "id": "oluwaseun_adebayo",
+    "name": "Oluwaseun Adebayo",
+    "gender": "male",
+    "origin_marker": "Nigerian",
+    "label": "Nigerian male"
+  },
+  {
+    "id": "amina_okafor",
+    "name": "Amina Okafor",
+    "gender": "female",
+    "origin_marker": "Nigerian",
+    "label": "Nigerian female"
+  },
+  {
+    "id": "hassan_al_mansouri",
+    "name": "Hassan Al Mansouri",
+    "gender": "male",
+    "origin_marker": "Emirati",
+    "label": "Emirati male"
+  },
+  {
+    "id": "fatima_al_nuaimi",
+    "name": "Fatima Al Nuaimi",
+    "gender": "female",
+    "origin_marker": "Emirati",
+    "label": "Emirati female"
+  },
+  {
+    "id": "giulia_rossi",
+    "name": "Giulia Rossi",
+    "gender": "female",
+    "origin_marker": "Italian",
+    "label": "Italian female"
   }
 ]
