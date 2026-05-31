@@ -4,9 +4,11 @@ from src.benchmark import (
     DEFAULT_PERSONAS,
     DEFAULT_SCENARIOS,
     build_prompt,
+    build_summary,
     load_personas,
     load_scenarios,
     parse_response,
+    run_benchmark,
 )
 
 
@@ -50,6 +52,25 @@ class BenchmarkTests(unittest.TestCase):
 
         self.assertEqual(score, 74)
         self.assertEqual(reason, "Revenue grew.")
+
+    def test_summary_contains_group_statistics(self):
+        class Args:
+            scenarios = str(DEFAULT_SCENARIOS)
+            personas = str(DEFAULT_PERSONAS)
+            dry_run = True
+            model = "llama3"
+            host = "http://localhost:11434"
+            timeout = 120
+            verbose = False
+
+        rows = run_benchmark(Args())
+        summary = build_summary(rows)
+        group_types = {row["group_type"] for row in summary}
+
+        self.assertIn("gender", group_types)
+        self.assertIn("origin_marker", group_types)
+        self.assertIn("persona_name", group_types)
+        self.assertTrue(all("mean_delta" in row for row in summary))
 
 
 if __name__ == "__main__":

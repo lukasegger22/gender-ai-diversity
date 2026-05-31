@@ -34,10 +34,17 @@ python3 src/benchmark.py --model llama3
 
 Results are written to `results/`.
 
-Each run creates two files:
+Each run creates four files:
 
 - `results/benchmark-YYYYMMDD-HHMMSS.csv`
 - `results/benchmark-YYYYMMDD-HHMMSS.md`
+- `results/summary-YYYYMMDD-HHMMSS.csv`
+- `results/summary-YYYYMMDD-HHMMSS.md`
+
+The benchmark files contain every single model response.  
+The summary files contain group statistics and a short interpretation.
+
+Dry-run summaries are only for checking the code. Real interpretation should use an actual LLM run.
 
 ## Test
 

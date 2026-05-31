@@ -7,6 +7,7 @@ import argparse
 import csv
 import json
 import re
+import statistics
 import sys
 import time
 import urllib.error
@@ -179,7 +180,8 @@ def run_benchmark(args: argparse.Namespace) -> list[dict[str, Any]]:
                 "raw_response": raw,
             }
             rows.append(row)
-            print(f"{scenario.id} | {persona.id} | score={score} | delta={delta}")
+            if args.verbose:
+                print(f"{scenario.id} | {persona.id} | score={score} | delta={delta}")
     return rows
 
 
@@ -213,6 +215,165 @@ def write_markdown(rows: list[dict[str, Any]], path: Path) -> None:
             file.write("| " + " | ".join(values) + " |\n")
 
 
+def mean(values: list[float]) -> float | None:
+    return statistics.mean(values) if values else None
+
+
+def rounded(value: float | None) -> str:
+    return "" if value is None else f"{value:.2f}"
+
+
+def summarize_group(rows: list[dict[str, Any]], group_key: str) -> list[dict[str, Any]]:
+    groups: dict[str, list[dict[str, Any]]] = {}
+    for row in rows:
+        if row["persona_id"] == "neutral":
+            continue
+        groups.setdefault(str(row[group_key]), []).append(row)
+
+    summary_rows = []
+    for group, group_rows in sorted(groups.items()):
+        scores = [float(row["score"]) for row in group_rows if row["score"] is not None]
+        deltas = [float(row["delta_from_baseline"]) for row in group_rows if row["delta_from_baseline"] is not None]
+        moderate_or_strong = [
+            row
+            for row in group_rows
+            if row["bias_label"] in {"possible moderate bias", "strong possible bias"}
+        ]
+        summary_rows.append(
+            {
+                "group_type": group_key,
+                "group": group,
+                "n": len(group_rows),
+                "mean_score": rounded(mean(scores)),
+                "mean_delta": rounded(mean(deltas)),
+                "min_delta": rounded(min(deltas) if deltas else None),
+                "max_delta": rounded(max(deltas) if deltas else None),
+                "moderate_or_strong_count": len(moderate_or_strong),
+            }
+        )
+    return summary_rows
+
+
+def build_summary(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    summary_rows = []
+    for key in ["gender", "origin_marker", "persona_name"]:
+        summary_rows.extend(summarize_group(rows, key))
+    return summary_rows
+
+
+def write_summary_csv(summary_rows: list[dict[str, Any]], path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", newline="", encoding="utf-8") as file:
+        writer = csv.DictWriter(file, fieldnames=list(summary_rows[0].keys()))
+        writer.writeheader()
+        writer.writerows(summary_rows)
+
+
+def strongest_differences(rows: list[dict[str, Any]], limit: int = 10) -> list[dict[str, Any]]:
+    named_rows = [row for row in rows if row["persona_id"] != "neutral" and row["delta_from_baseline"] is not None]
+    return sorted(named_rows, key=lambda row: abs(int(row["delta_from_baseline"])), reverse=True)[:limit]
+
+
+def interpretation(summary_rows: list[dict[str, Any]]) -> str:
+    origin_rows = [row for row in summary_rows if row["group_type"] == "origin_marker"]
+    gender_rows = [row for row in summary_rows if row["group_type"] == "gender"]
+    signal_count = sum(int(row["moderate_or_strong_count"]) for row in origin_rows)
+
+    if signal_count == 0:
+        main_result = (
+            "In this run, the benchmark does not show a clear repeated bias signal. "
+            "Most score differences stay close to the neutral baseline."
+        )
+    else:
+        main_result = (
+            "In this run, the benchmark shows possible bias signals. "
+            "Some named variants differ from the neutral baseline by a moderate or strong amount."
+        )
+
+    strongest_origin = min(
+        origin_rows,
+        key=lambda row: float(row["mean_delta"]) if row["mean_delta"] else 0.0,
+        default=None,
+    )
+    strongest_gender = min(
+        gender_rows,
+        key=lambda row: float(row["mean_delta"]) if row["mean_delta"] else 0.0,
+        default=None,
+    )
+
+    lines = [
+        main_result,
+        "",
+        "What can be said:",
+        "- The benchmark can show score differences between neutral and named CEO variants.",
+        "- Repeated negative deltas for one group can be treated as a possible bias signal.",
+        "- The output is useful for comparing model behavior across gender and origin markers.",
+        "",
+        "What cannot be said:",
+        "- The benchmark cannot prove real-world discrimination by itself.",
+        "- Name-based origin markers are approximations and can be interpreted differently.",
+        "- A single model run is not enough for a strong statistical claim.",
+    ]
+
+    if strongest_origin:
+        lines.extend(
+            [
+                "",
+                f"Lowest average origin-marker delta: {strongest_origin['group']} ({strongest_origin['mean_delta']}).",
+            ]
+        )
+    if strongest_gender:
+        lines.append(f"Lowest average gender delta: {strongest_gender['group']} ({strongest_gender['mean_delta']}).")
+
+    return "\n".join(lines)
+
+
+def is_dry_run(rows: list[dict[str, Any]]) -> bool:
+    return all(row["model"] == "dry-run" for row in rows)
+
+
+def write_summary_markdown(
+    rows: list[dict[str, Any]],
+    summary_rows: list[dict[str, Any]],
+    path: Path,
+) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    columns = [
+        "group_type",
+        "group",
+        "n",
+        "mean_score",
+        "mean_delta",
+        "min_delta",
+        "max_delta",
+        "moderate_or_strong_count",
+    ]
+    with path.open("w", encoding="utf-8") as file:
+        file.write("# Benchmark Summary\n\n")
+        file.write("## Interpretation\n\n")
+        if is_dry_run(rows):
+            file.write(
+                "This is a dry-run output. It tests the code and export structure, "
+                "but it is not evidence about real LLM bias.\n\n"
+            )
+        file.write(interpretation(summary_rows))
+        file.write("\n\n## Group Statistics\n\n")
+        file.write("| " + " | ".join(columns) + " |\n")
+        file.write("| " + " | ".join(["---"] * len(columns)) + " |\n")
+        for row in summary_rows:
+            values = [str(row[column]) for column in columns]
+            file.write("| " + " | ".join(values) + " |\n")
+
+        file.write("\n## Strongest Single Differences\n\n")
+        top_rows = strongest_differences(rows)
+        top_columns = ["scenario_id", "persona_name", "gender", "origin_marker", "delta_from_baseline", "bias_label"]
+        file.write("| " + " | ".join(top_columns) + " |\n")
+        file.write("| " + " | ".join(["---"] * len(top_columns)) + " |\n")
+        for row in top_rows:
+            values = [str(row[column]) for column in top_columns]
+            file.write("| " + " | ".join(values) + " |\n")
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run the financial sentiment bias benchmark.")
     parser.add_argument("--model", default="llama3", help="Ollama model name.")
@@ -222,6 +383,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--out-dir", default=str(DEFAULT_RESULTS), help="Result directory.")
     parser.add_argument("--timeout", type=int, default=120, help="Ollama request timeout in seconds.")
     parser.add_argument("--dry-run", action="store_true", help="Run without calling Ollama.")
+    parser.add_argument("--verbose", action="store_true", help="Print every prompt result.")
     return parser.parse_args()
 
 
@@ -231,6 +393,7 @@ def main() -> int:
     out_dir = Path(args.out_dir)
 
     try:
+        print("Benchmark started")
         rows = run_benchmark(args)
     except Exception as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
@@ -242,10 +405,18 @@ def main() -> int:
 
     csv_path = out_dir / f"benchmark-{timestamp}.csv"
     md_path = out_dir / f"benchmark-{timestamp}.md"
+    summary_csv_path = out_dir / f"summary-{timestamp}.csv"
+    summary_md_path = out_dir / f"summary-{timestamp}.md"
+    summary_rows = build_summary(rows)
     write_csv(rows, csv_path)
     write_markdown(rows, md_path)
+    write_summary_csv(summary_rows, summary_csv_path)
+    write_summary_markdown(rows, summary_rows, summary_md_path)
+    print(f"Rows generated: {len(rows)}")
     print(f"CSV written: {csv_path}")
     print(f"Markdown written: {md_path}")
+    print(f"Summary CSV written: {summary_csv_path}")
+    print(f"Summary Markdown written: {summary_md_path}")
     return 0
 
 

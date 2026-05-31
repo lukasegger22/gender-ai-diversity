@@ -27,6 +27,7 @@ The main user is the student working on the project. A second user could be a te
 - The tool records a short explanation from the model.
 - The tool calculates the difference between named versions and the neutral baseline.
 - The tool exports results in a simple format, for example CSV or Markdown.
+- The tool exports summary statistics and a short interpretation.
 
 ## Acceptance Criteria
 
@@ -42,6 +43,7 @@ Prototype status:
 - 15 named CEO personas are implemented, plus the neutral baseline.
 - Gender and specific origin markers are included as bias dimensions.
 - CSV and Markdown export are implemented.
+- Summary statistics are implemented.
 - Ollama support is implemented.
 - Dry-run mode is implemented for code testing without an installed LLM.
 

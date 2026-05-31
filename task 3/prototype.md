@@ -15,6 +15,7 @@ It follows the Task 2 promptotyping documents:
 - The neutral CEO version is used as the baseline.
 - Named CEO versions are compared against the baseline.
 - Results are exported as CSV and Markdown.
+- Summary statistics are exported as CSV and Markdown.
 
 ## How It Works
 
@@ -34,6 +35,17 @@ The tool records:
 - model reason
 - prompt
 - raw response
+
+The summary output records:
+
+- group type
+- group name
+- number of rows
+- average score
+- average delta from baseline
+- lowest delta
+- highest delta
+- count of moderate or strong bias signals
 
 ## LLM
 
@@ -56,6 +68,8 @@ Run with Ollama:
 ```bash
 python3 src/benchmark.py --model llama3
 ```
+
+Each run creates raw benchmark files and summary files in `results/`.
 
 ## Responsibility
 

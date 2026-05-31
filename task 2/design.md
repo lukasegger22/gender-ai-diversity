@@ -77,6 +77,8 @@ The neutral prompt is the baseline. Named prompts are compared to it.
 
 The project should also check the model explanation, because the score alone may not show why the answer changed.
 
+The prototype also creates summary statistics. It groups results by gender, origin marker, and persona name. For each group it calculates average score, average delta from baseline, minimum delta, maximum delta, and the number of moderate or strong bias signals.
+
 ## Risks
 
 - The model may not always follow the required output format.
