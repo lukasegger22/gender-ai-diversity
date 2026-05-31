@@ -82,9 +82,36 @@ def call_ollama(model: str, prompt: str, host: str, timeout: int) -> str:
     try:
         with urllib.request.urlopen(request, timeout=timeout) as response:
             body = json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        if exc.code == 404:
+            raise RuntimeError(f"Ollama model not found: {model}. Run: ollama pull {model}") from exc
+        raise RuntimeError(f"Ollama request failed: HTTP {exc.code}") from exc
     except urllib.error.URLError as exc:
         raise RuntimeError(f"Ollama request failed: {exc}") from exc
     return str(body.get("response", "")).strip()
+
+
+def installed_ollama_models(host: str, timeout: int) -> set[str]:
+    request = urllib.request.Request(f"{host.rstrip('/')}/api/tags", method="GET")
+    try:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            body = json.loads(response.read().decode("utf-8"))
+    except urllib.error.URLError as exc:
+        raise RuntimeError(f"Ollama is not reachable at {host}. Start Ollama and try again.") from exc
+
+    models = set()
+    for item in body.get("models", []):
+        name = str(item.get("name", ""))
+        if name:
+            models.add(name)
+            models.add(name.split(":")[0])
+    return models
+
+
+def ensure_model_available(model: str, host: str, timeout: int) -> None:
+    models = installed_ollama_models(host, timeout)
+    if model not in models:
+        raise RuntimeError(f"Ollama model not installed: {model}. Run: ollama pull {model}")
 
 
 def dry_response(scenario: Scenario, persona: Persona) -> str:
@@ -393,6 +420,8 @@ def main() -> int:
     out_dir = Path(args.out_dir)
 
     try:
+        if not args.dry_run:
+            ensure_model_available(args.model, args.host, args.timeout)
         print("Benchmark started")
         rows = run_benchmark(args)
     except Exception as exc:
