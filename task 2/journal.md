@@ -43,7 +43,7 @@ The project concept is defined. A first Python prototype is implemented. It can 
 ### Prototype Notes
 
 - The implementation follows the Task 2 design.
-- The first version uses `llama3` through Ollama.
+- The first real prototype run uses `mistral` through Ollama. `llama3` remains an optional second model from the original plan.
 - A dry-run mode was added to test the code before running a real local model.
 - The output format is simple so it can be checked manually.
 - After class feedback, broad groups like "Asian" and "Western" were replaced by narrower markers such as Chinese, German, White American, Mexican American, Indian, Nigerian, Emirati, and Italian.

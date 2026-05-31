@@ -49,7 +49,7 @@ The summary output records:
 
 ## LLM
 
-The planned LLM runtime is Ollama with `llama3`.
+The planned LLM runtime is Ollama with `mistral`. The Task 2 docs also mention `llama3` as an optional second local model.
 
 The prototype also has a dry-run mode. This mode does not call an LLM. It is only used to test the code, data structure, and exports.
 
@@ -66,7 +66,7 @@ python3 src/benchmark.py --dry-run
 Run with Ollama:
 
 ```bash
-python3 src/benchmark.py --model llama3
+python3 src/benchmark.py --model mistral
 ```
 
 Each run creates raw benchmark files and summary files in `results/`.

@@ -28,8 +28,8 @@ python3 src/benchmark.py --dry-run
 Run with Ollama:
 
 ```bash
-ollama pull llama3
-python3 src/benchmark.py --model llama3
+ollama pull mistral
+python3 src/benchmark.py --model mistral
 ```
 
 Results are written to `results/`.

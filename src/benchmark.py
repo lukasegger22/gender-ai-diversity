@@ -376,7 +376,7 @@ def write_summary_markdown(
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run the financial sentiment bias benchmark.")
-    parser.add_argument("--model", default="llama3", help="Ollama model name.")
+    parser.add_argument("--model", default="mistral", help="Ollama model name.")
     parser.add_argument("--host", default="http://localhost:11434", help="Ollama host.")
     parser.add_argument("--scenarios", default=str(DEFAULT_SCENARIOS), help="Scenario JSON path.")
     parser.add_argument("--personas", default=str(DEFAULT_PERSONAS), help="Persona JSON path.")

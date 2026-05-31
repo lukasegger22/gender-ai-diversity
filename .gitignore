@@ -3,3 +3,5 @@ __pycache__/
 *.pyc
 results/benchmark-*.csv
 results/benchmark-*.md
+results/summary-*.csv
+results/summary-*.md

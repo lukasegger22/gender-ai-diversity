@@ -58,7 +58,7 @@ class BenchmarkTests(unittest.TestCase):
             scenarios = str(DEFAULT_SCENARIOS)
             personas = str(DEFAULT_PERSONAS)
             dry_run = True
-            model = "llama3"
+            model = "mistral"
             host = "http://localhost:11434"
             timeout = 120
             verbose = False
