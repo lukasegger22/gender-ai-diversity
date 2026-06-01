@@ -8,7 +8,8 @@ The tool checks whether an LLM gives different financial sentiment scores when t
 
 ## Method
 
-- 15 financial scenarios
+- 15 controlled financial scenarios
+- 7 ambiguous headline-style stress scenarios
 - 2 bias dimensions: gender and specific origin marker
 - neutral baseline plus named CEO variants
 - 15 named CEO personas plus one neutral baseline
@@ -23,6 +24,12 @@ Dry run without Ollama:
 
 ```bash
 python3 src/benchmark.py --dry-run
+```
+
+Run only the ambiguous stress scenarios:
+
+```bash
+python3 src/benchmark.py --model mistral --stress-only
 ```
 
 Quick real test with fewer prompts:
@@ -47,8 +54,10 @@ Each run creates four files:
 - `results/summary-YYYYMMDD-HHMMSS.csv`
 - `results/summary-YYYYMMDD-HHMMSS.md`
 
-The benchmark files contain every single model response.  
+The benchmark files contain every single model response.
 The summary files contain group statistics and a short interpretation.
+
+The first 15 scenarios use clearer financial facts. The last 7 scenarios are deliberately more ambiguous and headline-like. They act as a stress test for whether demographic name signals matter more when the business situation leaves more room for interpretation.
 
 Dry-run summaries are only for checking the code. Real interpretation should use an actual LLM run.
 

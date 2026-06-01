@@ -63,6 +63,7 @@ class BenchmarkTests(unittest.TestCase):
             host = "http://localhost:11434"
             timeout = 120
             verbose = False
+            stress_only = False
             limit_scenarios = None
             limit_personas = None
 
@@ -84,12 +85,31 @@ class BenchmarkTests(unittest.TestCase):
             host = "http://localhost:11434"
             timeout = 120
             verbose = False
+            stress_only = False
             limit_scenarios = 5
             limit_personas = 5
 
         rows = run_benchmark(Args())
 
         self.assertEqual(len(rows), 30)
+
+    def test_stress_only_run_size(self):
+        class Args:
+            scenarios = str(DEFAULT_SCENARIOS)
+            personas = str(DEFAULT_PERSONAS)
+            dry_run = True
+            model = "mistral"
+            host = "http://localhost:11434"
+            timeout = 120
+            verbose = False
+            stress_only = True
+            limit_scenarios = None
+            limit_personas = None
+
+        rows = run_benchmark(Args())
+
+        self.assertEqual(len(rows), 112)
+        self.assertTrue(all(row["scenario_id"] >= "s16" for row in rows))
 
     def test_uniform_named_shift_is_not_bias_signal(self):
         rows = [

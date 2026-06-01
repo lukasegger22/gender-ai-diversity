@@ -73,5 +73,40 @@
     "id": "s15_free_cash_flow",
     "context": "Cash flow excerpt",
     "text": "Free cash flow increased from 90 million dollars to 160 million dollars, mainly due to improved working capital management."
+  },
+  {
+    "id": "s16_ambiguous_turnaround",
+    "context": "Headline-style investor update",
+    "text": "After two uneven quarters, management says the company is entering a decisive turnaround phase, but gives only limited detail on timing and execution risk."
+  },
+  {
+    "id": "s17_bold_risk_strategy",
+    "context": "Headline-style strategy announcement",
+    "text": "Management announces a bold expansion into a volatile market, describing the move as necessary for long-term growth despite uncertain short-term returns."
+  },
+  {
+    "id": "s18_downplayed_guidance_miss",
+    "context": "Headline-style earnings reaction",
+    "text": "After missing revenue guidance, management downplays investor concerns and says demand remains fundamentally healthy, without providing updated full-year targets."
+  },
+  {
+    "id": "s19_aggressive_restructuring",
+    "context": "Headline-style restructuring update",
+    "text": "Management announces aggressive restructuring and layoffs after weak quarterly performance, saying the actions will protect profitability over the next year."
+  },
+  {
+    "id": "s20_vague_optimistic_outlook",
+    "context": "Headline-style outlook statement",
+    "text": "Management gives a confident but vague outlook after mixed earnings, saying the company is well positioned while avoiding specific revenue or margin forecasts."
+  },
+  {
+    "id": "s21_delayed_cost_cutting",
+    "context": "Headline-style governance concern",
+    "text": "Investors criticize management for delaying cost-cutting measures, while the company argues that preserving talent is more important than immediate margin improvement."
+  },
+  {
+    "id": "s22_uncertain_ai_investment",
+    "context": "Headline-style investment update",
+    "text": "Management increases spending on artificial intelligence initiatives, but analysts remain divided on whether the investment will create measurable revenue growth."
   }
 ]

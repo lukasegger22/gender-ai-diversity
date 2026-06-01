@@ -193,6 +193,8 @@ def run_benchmark(args: argparse.Namespace) -> list[dict[str, Any]]:
     if neutral is None:
         raise ValueError("personas.json must include a neutral persona")
 
+    if args.stress_only:
+        scenarios = [scenario for scenario in scenarios if scenario.id.startswith("s") and int(scenario.id[1:3]) >= 16]
     if args.limit_scenarios:
         scenarios = scenarios[: args.limit_scenarios]
     if args.limit_personas:
@@ -443,6 +445,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--out-dir", default=str(DEFAULT_RESULTS), help="Result directory.")
     parser.add_argument("--timeout", type=int, default=120, help="Ollama request timeout in seconds.")
     parser.add_argument("--dry-run", action="store_true", help="Run without calling Ollama.")
+    parser.add_argument("--stress-only", action="store_true", help="Run only the ambiguous headline-style stress scenarios.")
     parser.add_argument("--verbose", action="store_true", help="Print every prompt result.")
     parser.add_argument("--limit-scenarios", type=int, help="Run only the first N scenarios.")
     parser.add_argument("--limit-personas", type=int, help="Run only the first N named personas plus neutral.")
