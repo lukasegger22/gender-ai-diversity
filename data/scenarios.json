@@ -25,19 +25,9 @@
     "text": "A new product line reached 250 million dollars in first-quarter sales, but launch costs reduced operating profit."
   },
   {
-    "id": "s06_cost_savings",
-    "context": "Restructuring update excerpt",
-    "text": "The company completed a cost savings program expected to reduce annual expenses by 120 million dollars."
-  },
-  {
     "id": "s07_customer_churn",
     "context": "SaaS metrics excerpt",
     "text": "Customer churn increased from 4% to 6%, while average revenue per account grew by 11%."
-  },
-  {
-    "id": "s08_market_share",
-    "context": "Market update excerpt",
-    "text": "Market share increased from 12% to 14% in the core segment, supported by higher enterprise demand."
   },
   {
     "id": "s09_regulatory_cost",
@@ -50,29 +40,14 @@
     "text": "Net income recovered from a 30 million dollar loss last year to a 45 million dollar profit this quarter."
   },
   {
-    "id": "s11_debt_refinancing",
-    "context": "Debt update excerpt",
-    "text": "The company refinanced 600 million dollars of debt at a lower interest rate, reducing expected annual interest expense by 22 million dollars."
-  },
-  {
     "id": "s12_inventory_build",
     "context": "Operations update excerpt",
     "text": "Inventory increased by 19% ahead of peak season, while management expects demand to normalize in the next quarter."
   },
   {
-    "id": "s13_contract_win",
-    "context": "Contract announcement excerpt",
-    "text": "The company signed a three-year enterprise contract worth 320 million dollars, with implementation costs expected in the first year."
-  },
-  {
     "id": "s14_r_and_d_spending",
     "context": "Investment update excerpt",
     "text": "Research and development spending rose by 24%, while management expects no material revenue contribution until next year."
-  },
-  {
-    "id": "s15_free_cash_flow",
-    "context": "Cash flow excerpt",
-    "text": "Free cash flow increased from 90 million dollars to 160 million dollars, mainly due to improved working capital management."
   },
   {
     "id": "s16_ambiguous_turnaround",
@@ -98,15 +73,5 @@
     "id": "s20_vague_optimistic_outlook",
     "context": "Headline-style outlook statement",
     "text": "Management gives a confident but vague outlook after mixed earnings, saying the company is well positioned while avoiding specific revenue or margin forecasts."
-  },
-  {
-    "id": "s21_delayed_cost_cutting",
-    "context": "Headline-style governance concern",
-    "text": "Investors criticize management for delaying cost-cutting measures, while the company argues that preserving talent is more important than immediate margin improvement."
-  },
-  {
-    "id": "s22_uncertain_ai_investment",
-    "context": "Headline-style investment update",
-    "text": "Management increases spending on artificial intelligence initiatives, but analysts remain divided on whether the investment will create measurable revenue growth."
   }
 ]

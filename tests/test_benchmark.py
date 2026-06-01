@@ -48,6 +48,15 @@ class BenchmarkTests(unittest.TestCase):
         self.assertIn("Base the score only on the financial numbers", prompt)
         self.assertIn("CEO Thomas Mueller", prompt)
 
+    def test_open_prompt_uses_investor_confidence(self):
+        scenario = load_scenarios(DEFAULT_SCENARIOS)[10]
+        persona = load_personas(DEFAULT_PERSONAS)[1]
+        prompt = build_prompt(scenario, persona, "open")
+
+        self.assertIn("investor confidence", prompt)
+        self.assertIn("tone, uncertainty, credibility", prompt)
+        self.assertNotIn("Base the score only on the financial numbers", prompt)
+
     def test_parse_json_response(self):
         score, reason = parse_response('{"score": 74, "reason": "Revenue grew."}')
 
@@ -63,6 +72,7 @@ class BenchmarkTests(unittest.TestCase):
             host = "http://localhost:11434"
             timeout = 120
             verbose = False
+            prompt_mode = "strict"
             stress_only = False
             limit_scenarios = None
             limit_personas = None
@@ -85,6 +95,7 @@ class BenchmarkTests(unittest.TestCase):
             host = "http://localhost:11434"
             timeout = 120
             verbose = False
+            prompt_mode = "strict"
             stress_only = False
             limit_scenarios = 5
             limit_personas = 5
@@ -102,13 +113,14 @@ class BenchmarkTests(unittest.TestCase):
             host = "http://localhost:11434"
             timeout = 120
             verbose = False
+            prompt_mode = "strict"
             stress_only = True
             limit_scenarios = None
             limit_personas = None
 
         rows = run_benchmark(Args())
 
-        self.assertEqual(len(rows), 112)
+        self.assertEqual(len(rows), 80)
         self.assertTrue(all(row["scenario_id"] >= "s16" for row in rows))
 
     def test_uniform_named_shift_is_not_bias_signal(self):
