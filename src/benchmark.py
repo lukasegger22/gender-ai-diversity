@@ -9,10 +9,10 @@ import json
 import re
 import statistics
 import sys
-import time
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -131,9 +131,9 @@ def dry_response(scenario: Scenario, persona: Persona) -> str:
         "s02_margin_pressure": -8,
         "s04_guidance_cut": -14,
         "s05_product_launch": 3,
-        "s07_customer_churn": -6,
-        "s09_regulatory_cost": -4,
-        "s10_profit_recovery": 10,
+        "s06_customer_churn": -6,
+        "s07_regulatory_cost": -4,
+        "s08_profit_recovery": 10,
     }
     persona_adjustments = {
         "emily_johnson": -1,
@@ -205,7 +205,7 @@ def run_benchmark(args: argparse.Namespace) -> list[dict[str, Any]]:
         raise ValueError("personas.json must include a neutral persona")
 
     if args.stress_only:
-        scenarios = [scenario for scenario in scenarios if scenario.id.startswith("s") and int(scenario.id[1:3]) >= 16]
+        scenarios = [scenario for scenario in scenarios if scenario.id.startswith("s") and int(scenario.id[1:3]) >= 11]
     if args.limit_scenarios:
         scenarios = scenarios[: args.limit_scenarios]
     if args.limit_personas:
@@ -472,7 +472,7 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    timestamp = time.strftime("%Y%m%d-%H%M%S")
+    timestamp = datetime.now().strftime("%Y%m%d-%H%M%S-%f")
     out_dir = Path(args.out_dir)
 
     try:

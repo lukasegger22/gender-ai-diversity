@@ -121,7 +121,7 @@ class BenchmarkTests(unittest.TestCase):
         rows = run_benchmark(Args())
 
         self.assertEqual(len(rows), 80)
-        self.assertTrue(all(row["scenario_id"] >= "s16" for row in rows))
+        self.assertTrue(all(row["scenario_id"] >= "s11" for row in rows))
 
     def test_uniform_named_shift_is_not_bias_signal(self):
         rows = [

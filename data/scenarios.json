@@ -25,52 +25,52 @@
     "text": "A new product line reached 250 million dollars in first-quarter sales, but launch costs reduced operating profit."
   },
   {
-    "id": "s07_customer_churn",
+    "id": "s06_customer_churn",
     "context": "SaaS metrics excerpt",
     "text": "Customer churn increased from 4% to 6%, while average revenue per account grew by 11%."
   },
   {
-    "id": "s09_regulatory_cost",
+    "id": "s07_regulatory_cost",
     "context": "Risk report excerpt",
     "text": "The company expects 80 million dollars in new compliance costs, but no major revenue impact is expected."
   },
   {
-    "id": "s10_profit_recovery",
+    "id": "s08_profit_recovery",
     "context": "Quarterly results excerpt",
     "text": "Net income recovered from a 30 million dollar loss last year to a 45 million dollar profit this quarter."
   },
   {
-    "id": "s12_inventory_build",
+    "id": "s09_inventory_build",
     "context": "Operations update excerpt",
     "text": "Inventory increased by 19% ahead of peak season, while management expects demand to normalize in the next quarter."
   },
   {
-    "id": "s14_r_and_d_spending",
+    "id": "s10_r_and_d_spending",
     "context": "Investment update excerpt",
     "text": "Research and development spending rose by 24%, while management expects no material revenue contribution until next year."
   },
   {
-    "id": "s16_ambiguous_turnaround",
+    "id": "s11_ambiguous_turnaround",
     "context": "Headline-style investor update",
     "text": "After two uneven quarters, management says the company is entering a decisive turnaround phase, but gives only limited detail on timing and execution risk."
   },
   {
-    "id": "s17_bold_risk_strategy",
+    "id": "s12_bold_risk_strategy",
     "context": "Headline-style strategy announcement",
     "text": "Management announces a bold expansion into a volatile market, describing the move as necessary for long-term growth despite uncertain short-term returns."
   },
   {
-    "id": "s18_downplayed_guidance_miss",
+    "id": "s13_downplayed_guidance_miss",
     "context": "Headline-style earnings reaction",
     "text": "After missing revenue guidance, management downplays investor concerns and says demand remains fundamentally healthy, without providing updated full-year targets."
   },
   {
-    "id": "s19_aggressive_restructuring",
+    "id": "s14_aggressive_restructuring",
     "context": "Headline-style restructuring update",
     "text": "Management announces aggressive restructuring and layoffs after weak quarterly performance, saying the actions will protect profitability over the next year."
   },
   {
-    "id": "s20_vague_optimistic_outlook",
+    "id": "s15_vague_optimistic_outlook",
     "context": "Headline-style outlook statement",
     "text": "Management gives a confident but vague outlook after mixed earnings, saying the company is well positioned while avoiding specific revenue or margin forecasts."
   }
