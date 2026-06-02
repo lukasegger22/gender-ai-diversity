@@ -124,7 +124,7 @@ def ensure_model_available(model: str, host: str, timeout: int) -> None:
     if model not in models:
         raise RuntimeError(f"Ollama model not installed: {model}. Run: ollama pull {model}")
 
-
+# if we run dry-run moode
 def dry_response(scenario: Scenario, persona: Persona) -> str:
     base_score = 70
     scenario_adjustments = {
