@@ -1,0 +1,241 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\usecolortheme{default}
+\definecolor{Accent}{RGB}{42,92,130}
+\definecolor{SoftAccent}{RGB}{232,240,246}
+\definecolor{TextGray}{RGB}{45,45,45}
+\definecolor{RuleGray}{RGB}{205,214,222}
+\setbeamercolor{normal text}{fg=TextGray,bg=white}
+\setbeamercolor{frametitle}{fg=Accent,bg=white}
+\setbeamercolor{title}{fg=Accent}
+\setbeamercolor{subtitle}{fg=TextGray}
+\setbeamercolor{block title}{fg=white,bg=Accent}
+\setbeamercolor{block body}{fg=TextGray,bg=SoftAccent}
+\setbeamercolor{itemize item}{fg=Accent}
+\setbeamercolor{itemize subitem}{fg=Accent}
+\setbeamercolor{enumerate item}{fg=Accent}
+\setbeamerfont{title}{series=\bfseries,size=\Large}
+\setbeamerfont{frametitle}{series=\bfseries,size=\large}
+\setbeamerfont{block title}{series=\bfseries}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{}
+\setbeamertemplate{headline}{}
+\setbeamertemplate{blocks}[rounded][shadow=false]
+\setbeamertemplate{itemize item}{\small\raise0.15ex\hbox{$\blacktriangleright$}}
+\setbeamertemplate{itemize subitem}{\scriptsize\raise0.15ex\hbox{$\blacktriangleright$}}
+\setbeamertemplate{frametitle}{
+  \vspace{0.35cm}
+  \insertframetitle
+  \par
+  \vspace{0.08cm}
+  {\color{RuleGray}\rule{\textwidth}{0.5pt}}
+}
+
+\title[Bias Benchmark Prototype]{Bias in LLM Financial Sentiment Analysis}
+\subtitle{Prototype for a Bias Detection Tool}
+\author{Lukas Egger}
+\date{3 June 2026}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Project Idea}
+  \begin{itemize}
+    \item Bias detection with local LLMs
+    \item Financial sentiment as application area
+    \item Same business statement with different CEO names
+    \item Focus on gender and origin markers
+    \item Small Python command line prototype
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Research Question}
+  \begin{block}{Main question}
+    Different CEO name, same business statement, different score
+  \end{block}
+
+  \vspace{0.3cm}
+
+  \begin{itemize}
+    \item Neutral baseline: \texttt{The CEO}
+    \item Named CEO variants as demographic signals
+    \item Score comparison against neutral baseline
+    \item Name sensitivity as first indicator
+    \item Possible bias signals from repeated deltas
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Prototype Setup}
+  \begin{itemize}
+    \item 15 scenarios in total
+    \item 10 controlled financial scenarios
+    \item 5 ambiguous headline-style stress scenarios
+    \item 15 named CEO personas plus one neutral baseline
+    \item Ollama as local runtime
+    \item Comparison with \texttt{llama3} and \texttt{mistral}
+  \end{itemize}
+
+  \vspace{0.3cm}
+
+  \begin{block}{Prompt count}
+    15 scenarios $\times$ 16 persona variants = 240 prompts per full run
+  \end{block}
+\end{frame}
+
+\begin{frame}{Bias Dimensions}
+  \begin{itemize}
+    \item \textbf{Gender:} male, female, neutral baseline
+    \item \textbf{Origin marker:} German, White American, Mexican American, Chinese, Indian, Nigerian, Emirati, Italian
+    \item Narrow origin markers instead of broad groups
+    \item No categories like Asian or Western
+    \item Adjusted after class feedback
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{How the Benchmark Works}
+  \begin{enumerate}
+    \item Load scenarios from JSON
+    \item Load personas from JSON
+    \item Build scenario-persona prompts
+    \item Query local LLM through Ollama
+    \item Parse score and short reason
+    \item Compare named variants to baseline
+    \item Export raw results and summary
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Scoring Logic}
+  \begin{block}{Delta from baseline}
+    \texttt{delta = named\_score - neutral\_baseline\_score}
+  \end{block}
+
+  \vspace{0.3cm}
+
+  \begin{itemize}
+    \item Small delta: no clear signal
+    \item Medium delta: possible bias signal
+    \item Large delta: strong possible bias signal
+    \item Uniform named shift: likely artifact
+    \item Avoiding overinterpretation of named CEO effects
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Demo Commands}
+  Full benchmark with progress
+
+  \begin{verbatim}
+python3 src/benchmark.py --model llama3 --verbose
+python3 src/benchmark.py --model mistral --verbose
+  \end{verbatim}
+
+  Stress scenarios with more interpretive space
+
+  \begin{verbatim}
+python3 src/benchmark.py --model llama3 --stress-only \
+  --prompt-mode open --verbose
+  \end{verbatim}
+
+  Dry run for testing exports
+
+  \begin{verbatim}
+python3 src/benchmark.py --dry-run
+  \end{verbatim}
+\end{frame}
+
+\begin{frame}{Output}
+  Files in \texttt{results/}
+
+  \begin{itemize}
+    \item \texttt{benchmark-...csv}
+    \item \texttt{benchmark-...md}
+    \item \texttt{summary-...csv}
+    \item \texttt{summary-...md}
+  \end{itemize}
+
+  \vspace{0.3cm}
+
+  \begin{itemize}
+    \item Raw model responses
+    \item Full prompt text for transparency
+    \item Scores and baseline deltas
+    \item Group statistics by gender and origin
+    \item Markdown summary for interpretation
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Observed LLM Output}
+  \begin{itemize}
+    \item Example strict output: revenue growth often scored around 85
+    \item Neutral CEO and named CEOs often received identical scores
+    \item Example pattern: \texttt{The CEO = 85}, \texttt{Thomas Mueller = 85}, delta 0
+    \item Stress scenarios often produced repeated 40 or 60 scores
+    \item Some earlier runs showed +20 named-CEO shifts in selected scenarios
+    \item Many shifts looked like general name effects, not clear demographic bias
+    \item Main finding: low name sensitivity in the current setup
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{What We Show in the Session}
+  \begin{itemize}
+    \item Working prototype instead of finished research claim
+    \item Live command line benchmark as main artifact
+    \item Methodology based on neutral baseline and named variants
+    \item Output files with raw LLM answers and Markdown summaries
+    \item Early result: mostly stable scores across names
+    \item Open question: better scoring dimensions for subtle bias
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Early Findings}
+  \begin{itemize}
+    \item Similar scores: \texttt{llama3} and \texttt{mistral}
+    \item Many identical scores across CEO names
+    \item Low name sensitivity in this setup
+    \item Strong effect of business content
+    \item Single 1--100 score possibly too broad
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Current Reflection}
+  \begin{itemize}
+    \item Strict prompt focused on business facts
+    \item Open prompt focused on investor confidence
+    \item Stress scenarios with more ambiguity
+    \item No artificial forcing of bias signals
+    \item No difference as valid result
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Open Questions}
+  \begin{itemize}
+    \item Multi-dimensional scoring as next step
+    \item Possible dimensions
+      \begin{itemize}
+        \item financial sentiment
+        \item investor confidence
+        \item perceived risk
+        \item leadership credibility
+        \item uncertainty
+      \end{itemize}
+    \item Hidden differences beyond one score
+    \item Repeated runs for more stability
+    \item Stronger claims only with more evidence
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Conclusion}
+  \begin{itemize}
+    \item Minimum requirements clearly met
+    \item 240 prompts in full benchmark
+    \item Two bias dimensions covered
+    \item Local LLM execution through Ollama
+    \item Working code with CSV and Markdown exports
+    \item Next step: more detailed scoring dimensions
+  \end{itemize}
+\end{frame}
+
+\end{document}
