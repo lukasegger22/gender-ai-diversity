@@ -1,0 +1,244 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\usecolortheme{default}
+
+\definecolor{Accent}{RGB}{42,92,130}
+\definecolor{SoftAccent}{RGB}{232,240,246}
+\definecolor{TextGray}{RGB}{45,45,45}
+\definecolor{RuleGray}{RGB}{205,214,222}
+
+\setbeamercolor{normal text}{fg=TextGray,bg=white}
+\setbeamercolor{frametitle}{fg=Accent,bg=white}
+\setbeamercolor{title}{fg=Accent}
+\setbeamercolor{subtitle}{fg=TextGray}
+\setbeamercolor{block title}{fg=white,bg=Accent}
+\setbeamercolor{block body}{fg=TextGray,bg=SoftAccent}
+\setbeamercolor{itemize item}{fg=Accent}
+\setbeamercolor{itemize subitem}{fg=Accent}
+\setbeamercolor{enumerate item}{fg=Accent}
+
+\setbeamerfont{title}{series=\bfseries,size=\Large}
+\setbeamerfont{subtitle}{size=\normalsize}
+\setbeamerfont{frametitle}{series=\bfseries,size=\large}
+\setbeamerfont{block title}{series=\bfseries}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{}
+\setbeamertemplate{headline}{}
+\setbeamertemplate{blocks}[rounded][shadow=false]
+\setbeamertemplate{itemize item}{\small\raise0.15ex\hbox{$\blacktriangleright$}}
+\setbeamertemplate{itemize subitem}{\scriptsize\raise0.15ex\hbox{$\blacktriangleright$}}
+\setbeamertemplate{frametitle}{
+  \vspace{0.35cm}
+  \insertframetitle
+  \par
+  \vspace{0.08cm}
+  {\color{RuleGray}\rule{\textwidth}{0.5pt}}
+}
+
+\title[Bias Benchmark]{Bias in LLM Financial Sentiment Analysis}
+\subtitle{Final prototype and result interpretation}
+\author{Lukas Egger}
+\date{24 June 2026}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Why This Project}
+  \begin{itemize}
+    \item LLMs used for interpreting business and financial texts
+    \item Sentiment scores can influence risk perception
+    \item Same financial facts should lead to same evaluation
+    \item CEO names may carry gender and origin signals
+    \item Goal: test whether names change financial sentiment scores
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Project Goal}
+  \begin{block}{Goal}
+    Build a small bias benchmark for LLM financial sentiment analysis
+  \end{block}
+
+  \vspace{0.35cm}
+
+  \begin{itemize}
+    \item Reproducible prompts
+    \item Neutral baseline comparison
+    \item Demographic name variants
+    \item Transparent CSV and Markdown outputs
+    \item Careful interpretation instead of forced bias claims
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Research Question}
+  \begin{block}{Main question}
+    Same financial statement, different CEO name, different LLM score
+  \end{block}
+
+  \vspace{0.35cm}
+
+  \begin{itemize}
+    \item Does the score change when only the CEO name changes
+    \item Are changes connected to gender or origin markers
+    \item Are changes repeated enough to count as possible bias signals
+    \item Or are they scenario-specific artifacts
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Benchmark Setup}
+  \begin{itemize}
+    \item 15 scenarios total
+    \item 10 controlled financial scenarios
+    \item 5 ambiguous headline-style stress scenarios
+    \item 15 named CEO personas
+    \item 1 neutral baseline: \texttt{The CEO}
+    \item Full run: 15 scenarios $\times$ 16 variants = 240 prompts
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Bias Dimensions}
+  \begin{itemize}
+    \item \textbf{Gender:} male, female, neutral baseline
+    \item \textbf{Origin markers:} German, White American, Mexican American
+    \item \textbf{Origin markers:} Chinese, Indian, Nigerian, Emirati, Italian
+    \item Narrow markers instead of broad labels like Asian or Western
+    \item Same financial content for every persona variant
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Technical Setup}
+  \begin{itemize}
+    \item Python command line tool
+    \item Local LLM runtime through Ollama
+    \item Models tested: \texttt{mistral} and \texttt{llama3}
+    \item Scenario and persona data stored as JSON
+    \item Results exported as CSV and Markdown
+    \item Tests and dry-run mode for reproducibility
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Prompt And Scoring}
+  \begin{itemize}
+    \item Prompt asks for financial sentiment score
+    \item Output format: JSON with \texttt{score} and \texttt{reason}
+    \item Score range: 1 to 100
+    \item Strict mode: focus only on financial facts
+    \item Open mode: investor confidence and interpretation
+  \end{itemize}
+
+  \vspace{0.25cm}
+
+  \begin{block}{Delta}
+    \texttt{delta = named CEO score - neutral CEO baseline score}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Evaluation Logic}
+  \begin{itemize}
+    \item \texttt{0-2}: no clear signal
+    \item \texttt{3-4}: small difference
+    \item \texttt{5-10}: possible moderate bias
+    \item \texttt{11-15}: possible large difference
+    \item \texttt{>15}: strong possible bias
+  \end{itemize}
+
+  \vspace{0.25cm}
+
+  \begin{block}{Important}
+    The label is only a warning signal, not proof of bias
+  \end{block}
+\end{frame}
+
+\begin{frame}{Summary Statistics}
+  \begin{itemize}
+    \item \texttt{mean\_score}: average sentiment score
+    \item \texttt{std\_score}: score standard deviation
+    \item \texttt{mean\_delta}: average distance from baseline
+    \item \texttt{std\_delta}: stability or spread of deltas
+    \item \texttt{min\_delta} and \texttt{max\_delta}: strongest deviations
+    \item signal counts: moderate, large, strong, uniform named shifts
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Result From Current Summary}
+  \begin{itemize}
+    \item Automatic summary flags possible bias signals
+    \item Strongest single deltas reach \texttt{+20}
+    \item Group average deltas remain close to zero
+    \item Female mean delta: \texttt{+1.00}
+    \item Male mean delta: \texttt{+1.33}
+    \item Lowest origin-marker mean delta: Chinese, \texttt{+0.67}
+  \end{itemize}
+
+  \vspace{0.25cm}
+
+  \begin{block}{First reading}
+    Some differences exist, but averages do not show a strong negative group pattern
+  \end{block}
+\end{frame}
+
+\begin{frame}{Strongest Differences}
+  \begin{itemize}
+    \item Strongest deltas mostly appear in \texttt{s03\_cash\_position}
+    \item Many different names receive the same \texttt{+20} shift
+    \item Examples: Thomas Mueller, Emily Johnson, Maria Garcia, Wei Chen
+    \item Pattern crosses gender and origin markers
+    \item Not clearly tied to one demographic group
+  \end{itemize}
+
+  \vspace{0.25cm}
+
+  \begin{block}{Interpretation}
+    More likely a scenario-specific named-vs-neutral effect than robust demographic bias
+  \end{block}
+\end{frame}
+
+\begin{frame}{How I Interpret This}
+  \begin{itemize}
+    \item The tool successfully detects score differences
+    \item The largest differences need manual inspection
+    \item Current run does not show stable demographic disadvantage
+    \item No group is consistently rated much lower
+    \item Some signals are better explained as scenario effects
+    \item Result: no robust demographic scoring bias detected
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{What This Does Not Mean}
+  \begin{itemize}
+    \item Not proof that the models are generally unbiased
+    \item Not proof of real-world discrimination
+    \item Not enough for a strong statistical claim
+    \item Names are imperfect demographic markers
+    \item Bias may appear in explanations or subjective dimensions
+    \item A single run is only exploratory evidence
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Should We Test Similar Scenarios}
+  \begin{itemize}
+    \item Small follow-up check outside the main benchmark
+    \item Three similar cash-position scenarios
+    \item Goal: test whether the \texttt{+20} pattern repeats
+    \item Same personas and same scoring logic
+    \item Not added as main evidence, only as validation check
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Conclusion}
+  \begin{itemize}
+    \item Minimum requirements fulfilled
+    \item 15 scenarios, 2 bias dimensions, local LLMs mistral/llama3
+    \item Summary statistics for better explanation
+    \item Current run shows possible differences, but no robust demographic bias
+    \item Strongest signals look scenario-specific rather than group-specific
+    \item Similar follow-up scenarios did not reproduce the strongest signal
+    \item Next step: more similar scenarios and more subjective scoring dimensions
+  \end{itemize}
+\end{frame}
+
+\end{document}

@@ -16,6 +16,7 @@ The tool checks whether an LLM gives different financial sentiment scores when t
 - 15 named CEO personas plus one neutral baseline
 - local LLM execution through Ollama
 - CSV and Markdown result export
+- group statistics with mean and standard deviation
 
 The origin markers are intentionally narrow. The prototype uses specific name signals such as German, White American, Mexican American, Chinese, Indian, Nigerian, Emirati, and Italian instead of broad categories like Western or Asian.
 
@@ -67,6 +68,14 @@ The summary files contain group statistics and a short interpretation.
 The scenario set stays compact on purpose. Ten scenarios use clearer financial facts, while five scenarios are deliberately more ambiguous and headline-like. The ambiguous scenarios act as a stress test for whether demographic name signals matter more when the business situation leaves more room for interpretation.
 
 Dry-run summaries are only for checking the code. Real interpretation should use an actual LLM run.
+
+## Interpretation
+
+The benchmark does not treat every score difference as bias. Deltas from 0 to 2 points are treated as no clear signal, and small differences are interpreted cautiously. The main evidence would be a repeated group-level pattern, not one isolated row.
+
+The current exploratory result is that `mistral` and `llama3` often give identical or very similar scores when only the CEO name changes. This should be interpreted as no stable repeated demographic scoring bias detected in the current setup, not as proof that the models are unbiased.
+
+Standard deviation in the summary helps interpret spread. A low `std_delta` with mean delta close to 0 supports the interpretation that the group stayed near the neutral baseline. A high `std_delta` means individual scenarios or outliers should be inspected manually.
 
 ## Test
 

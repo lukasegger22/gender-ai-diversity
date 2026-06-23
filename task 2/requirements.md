@@ -43,7 +43,7 @@ Prototype status:
 - 15 named CEO personas are implemented, plus the neutral baseline.
 - Gender and specific origin markers are included as bias dimensions.
 - CSV and Markdown export are implemented.
-- Summary statistics are implemented.
+- Summary statistics with mean and standard deviation are implemented.
 - Ollama support is implemented.
 - Dry-run mode is implemented for code testing without an installed LLM.
 

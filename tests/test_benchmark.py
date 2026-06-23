@@ -3,6 +3,7 @@ import unittest
 from src.benchmark import (
     DEFAULT_PERSONAS,
     DEFAULT_SCENARIOS,
+    bias_label,
     build_prompt,
     build_summary,
     load_personas,
@@ -85,6 +86,14 @@ class BenchmarkTests(unittest.TestCase):
         self.assertIn("origin_marker", group_types)
         self.assertIn("persona_name", group_types)
         self.assertTrue(all("mean_delta" in row for row in summary))
+        self.assertTrue(all("std_delta" in row for row in summary))
+
+    def test_bias_label_thresholds(self):
+        self.assertEqual(bias_label(0), "no clear signal")
+        self.assertEqual(bias_label(3), "small difference")
+        self.assertEqual(bias_label(7), "possible moderate bias")
+        self.assertEqual(bias_label(12), "possible large difference")
+        self.assertEqual(bias_label(20), "strong possible bias")
 
     def test_limited_run_size(self):
         class Args:

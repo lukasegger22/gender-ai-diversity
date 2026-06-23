@@ -43,10 +43,12 @@ The summary output records:
 - group name
 - number of rows
 - average score
+- score standard deviation
 - average delta from baseline
+- delta standard deviation
 - lowest delta
 - highest delta
-- count of moderate or strong bias signals
+- count of moderate or stronger bias signals
 
 ## LLM
 
@@ -66,6 +68,8 @@ Short interpretation:
 - The current score mainly measures the financial situation in the text.
 - The model often follows the instruction to focus on business facts.
 - Identical scores can therefore be interpreted as low name sensitivity in this setup.
+- Small deltas are interpreted cautiously and are not treated as proof of bias.
+- Standard deviation helps show whether score differences are stable or mainly caused by outliers.
 - A single 1-100 sentiment score may be too broad to reveal subtle bias.
 - Bias may appear more clearly in interpretive dimensions such as perceived risk, credibility, confidence, or uncertainty.
 
